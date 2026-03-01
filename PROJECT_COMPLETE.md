@@ -135,19 +135,6 @@ Use the **Publish Tab** to deploy your website live!
 
 ---
 
-## 🎓 Academic Project Details
-
-**Institution**: M.V.P. Samaja's K.A.A.N.M.S. Arts Commerce & Science College, Satana  
-**Department**: Computer Science  
-**Project Type**: Full-Stack Web Application
-
-**Team Members**:
-- Unnati Dilip Ahire
-- Pranjal Shashikant Sonawane
-- Giridhar Keda More
-
----
-
 ## 🌟 Key Achievements
 
 ### ✨ Technical Excellence
@@ -382,38 +369,6 @@ Keep these handy alongside your app:
 
 ---
 
-## 🌟 Final Notes
 
-This Emergency Alert System represents:
-- ✅ Comprehensive full-stack development
-- ✅ Real-world problem solving
-- ✅ Professional code quality
-- ✅ Complete documentation
-- ✅ Production-ready deployment
-- ✅ Social impact potential
 
-**Your project is ready to deploy and use!** 🚀
 
----
-
-## 🚀 Ready to Deploy?
-
-1. Go to the **Publish Tab**
-2. Click **"Publish"** button
-3. Get your live URL
-4. Share with the world!
-
----
-
-**Project Status**: ✅ **COMPLETE & READY FOR DEPLOYMENT**
-
-**Version**: 1.0.0  
-**Last Updated**: 2024  
-**License**: Educational Project
-
----
-
-*Emergency Alert System - Your Safety, Our Priority* 🚨
-
-**Made with ❤️ by the Computer Science Department**  
-**K.A.A.N.M.S. College, Satana**
