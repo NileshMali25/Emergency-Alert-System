@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert History - Emergency Alert System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="messageContainer"></div>
+<div class="dashboard">
+
+<header class="dashboard-header">
+    <div class="container">
+        <nav class="dashboard-nav">
+            <div class="dashboard-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Emergency Alert</span>
+            </div>
+
+            <div class="dashboard-menu">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="contacts.html"><i class="fas fa-address-book"></i> Contacts</a>
+                <a href="history.html" class="active"><i class="fas fa-history"></i> History</a>
+                <a href="profile.html"><i class="fas fa-user-cog"></i> Profile</a>
+            </div>
+
+            <div class="user-menu">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="user-avatar" id="userAvatar">U</div>
+                <button class="btn btn-small btn-danger" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="dashboard-content">
+<div class="container">
+
+<div id="alertContainer"></div>
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">Alert History 📋</h1>
+        <p class="page-subtitle">
+            View all your emergency alerts and their status
+        </p>
+    </div>
+
+    <button class="btn btn-success" id="exportHistoryBtn">
+        <i class="fas fa-download"></i> Export History
+    </button>
+</div>
+
+<!-- ================= Stats ================= -->
+<div class="dashboard-grid stats-grid">
+
+    <div class="dashboard-card stat-card">
+        <div class="card-header">
+            <div>
+                <div class="card-title" id="totalAlerts">0</div>
+                <p class="stat-label">Total Alerts</p>
+            </div>
+            <div class="card-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card stat-card">
+        <div class="card-header">
+            <div>
+                <div class="card-title success-text" id="sentAlerts">0</div>
+                <p class="stat-label">Successfully Sent</p>
+            </div>
+            <div class="card-icon success-text">
+                <i class="fas fa-check-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card stat-card">
+        <div class="card-header">
+            <div>
+                <div class="card-title danger-text" id="failedAlerts">0</div>
+                <p class="stat-label">Failed Alerts</p>
+            </div>
+            <div class="card-icon danger-text">
+                <i class="fas fa-times-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-card stat-card">
+        <div class="card-header">
+            <div>
+                <div class="card-title warning-text" id="resolvedAlerts">0</div>
+                <p class="stat-label">Resolved</p>
+            </div>
+            <div class="card-icon warning-text">
+                <i class="fas fa-check-double"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ================= Filters ================= -->
+<div class="dashboard-card filter-card">
+    <div class="filter-row">
+
+        <input type="text"
+               id="searchHistory"
+               name="searchHistory"
+               class="form-input"
+               placeholder="Search alerts..."
+               autocomplete="off">
+
+        <select id="filterType" name="filterType" class="form-select">
+            <option value="">All Types</option>
+            <option value="Medical Emergency">Medical Emergency</option>
+            <option value="Accident">Accident</option>
+            <option value="Personal Safety">Personal Safety</option>
+            <option value="Natural Disaster">Natural Disaster</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <select id="filterStatus" name="filterStatus" class="form-select">
+            <option value="">All Status</option>
+            <option value="Sent">Sent</option>
+            <option value="Failed">Failed</option>
+            <option value="Partially Sent">Partially Sent</option>
+        </select>
+
+        <select id="filterResolved" name="filterResolved" class="form-select">
+            <option value="">All</option>
+            <option value="resolved">Resolved</option>
+            <option value="unresolved">Unresolved</option>
+        </select>
+
+    </div>
+</div>
+
+<!-- ================= History List ================= -->
+<div class="dashboard-card">
+    <div class="card-header">
+        <h2 class="card-title">Alert Timeline</h2>
+        <span id="historyCount" class="muted-text">0 alerts</span>
+    </div>
+
+    <div id="historyList" class="history-list">
+
+        <div class="empty-state">
+            <i class="fas fa-history empty-icon"></i>
+            <p class="empty-title">No alerts sent yet</p>
+            <p class="empty-subtitle">Your alert history will appear here</p>
+            <a href="dashboard.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Go to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</div>
+</main>
+</div>
+
+<!-- ================= Details Modal ================= -->
+<div id="detailsModal" class="modal" aria-hidden="true">
+    <div class="modal-content modal-large">
+        <div class="modal-header">
+            <h2 class="modal-title">
+                <i class="fas fa-info-circle"></i> Alert Details
+            </h2>
+            <button class="modal-close" id="modalClose">&times;</button>
+        </div>
+
+        <div class="modal-body" id="alertDetailsContent">
+            <!-- Loaded dynamically -->
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-success" id="markResolvedBtn" style="display:none;">
+                <i class="fas fa-check"></i> Mark as Resolved
+            </button>
+            <button class="btn btn-outline" id="closeDetailsBtn">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="js/history.js"></script>
+
+</body>
+</html>

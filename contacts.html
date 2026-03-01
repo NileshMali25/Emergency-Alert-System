@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contacts - Emergency Alert System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <nav class="dashboard-nav">
+
+                <div class="dashboard-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Emergency Alert</span>
+                </div>
+
+                <div class="dashboard-menu">
+                    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="contacts.html" class="active"><i class="fas fa-address-book"></i> Contacts</a>
+                    <a href="history.html"><i class="fas fa-history"></i> History</a>
+                    <a href="profile.html"><i class="fas fa-user-cog"></i> Profile</a>
+                </div>
+
+                <div class="user-menu">
+                    <button class="theme-toggle" id="themeToggle" type="button">
+                        <i class="fas fa-moon"></i>
+                    </button>
+
+                    <div class="user-avatar" id="userAvatar">U</div>
+
+                    <button class="btn btn-small btn-danger" id="logoutBtn" type="button">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="dashboard-content">
+        <div class="container">
+
+            <div id="alertContainer"></div>
+
+            <!-- Page Header -->
+            <section class="page-header">
+                <div>
+                    <h1>Emergency Contacts 📞</h1>
+                    <p>Manage your trusted emergency contacts</p>
+                </div>
+
+                <button class="btn btn-primary btn-large" id="addContactBtn" type="button">
+                    <i class="fas fa-user-plus"></i> Add Contact
+                </button>
+            </section>
+
+            <!-- Stats -->
+            <section class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title" id="totalContacts">0</div>
+                            <p>Total Contacts</p>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search -->
+            <section class="dashboard-card">
+                <div class="filter-row">
+
+                    <input
+                        type="text"
+                        id="searchContact"
+                        class="form-input"
+                        placeholder="Search by name, phone or email..."
+                        autocomplete="off"
+                    >
+
+                    <select id="filterRelationship" class="form-select">
+                        <option value="">All Relationships</option>
+                        <option value="Family">Family</option>
+                        <option value="Friend">Friend</option>
+                        <option value="Colleague">Colleague</option>
+                        <option value="Neighbor">Neighbor</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                </div>
+            </section>
+
+            <!-- Contacts List -->
+            <section class="dashboard-card">
+
+                <div class="card-header">
+                    <h2>Your Emergency Contacts</h2>
+                    <span id="contactsCount">0 contacts</span>
+                </div>
+
+                <div id="contactsList">
+                    <div class="empty-state">
+                        <i class="fas fa-address-book"></i>
+                        <p>No contacts added yet</p>
+
+                        <button class="btn btn-primary" type="button" id="addFirstContactBtn">
+                            <i class="fas fa-user-plus"></i> Add First Contact
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+</div>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="modalTitle">
+                <i class="fas fa-user-plus"></i> Add Emergency Contact
+            </h2>
+            <button class="modal-close" id="modalClose" type="button">&times;</button>
+        </div>
+
+        <form id="contactForm">
+
+            <input type="hidden" id="contactId" name="contactId">
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label for="contactName">Full Name *</label>
+                    <input
+                        type="text"
+                        id="contactName"
+                        name="contactName"
+                        class="form-input"
+                        required
+                        autocomplete="name"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="contactPhone">Phone Number *</label>
+                    <input
+                        type="tel"
+                        id="contactPhone"
+                        name="contactPhone"
+                        class="form-input"
+                        required
+                        autocomplete="tel"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="contactEmail">Email Address *</label>
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        name="contactEmail"
+                        class="form-input"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="contactRelationship">Relationship *</label>
+                    <select
+                        id="contactRelationship"
+                        name="contactRelationship"
+                        class="form-select"
+                        required
+                    >
+                        <option value="">Select relationship</option>
+                        <option value="Family">Family</option>
+                        <option value="Friend">Friend</option>
+                        <option value="Colleague">Colleague</option>
+                        <option value="Neighbor">Neighbor</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactPriority">Priority</label>
+                    <select
+                        id="contactPriority"
+                        name="contactPriority"
+                        class="form-select"
+                    >
+                        <option value="1">High (1)</option>
+                        <option value="2">Medium (2)</option>
+                        <option value="3" selected>Normal (3)</option>
+                        <option value="4">Low (4)</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" id="cancelContact">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary" id="saveContact">
+                    Save Contact
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script src="js/contacts.js"></script>
+
+</body>
+</html>

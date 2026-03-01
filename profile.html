@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - Emergency Alert System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<header class="dashboard-header">
+    <div class="container">
+        <nav class="dashboard-nav">
+            <div class="dashboard-logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Emergency Alert</span>
+            </div>
+
+            <div class="dashboard-menu">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="contacts.html"><i class="fas fa-address-book"></i> Contacts</a>
+                <a href="history.html"><i class="fas fa-history"></i> History</a>
+                <a href="profile.html" class="active"><i class="fas fa-user-cog"></i> Profile</a>
+            </div>
+
+            <div class="user-menu">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <div class="user-avatar" id="userAvatar">U</div>
+
+                <button class="btn btn-small btn-danger" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="dashboard-content">
+<div class="container">
+
+<div id="alertContainer"></div>
+
+<h1 class="page-title">Profile Settings ⚙️</h1>
+<p class="page-subtitle">Manage your account information and preferences</p>
+
+<!-- ================= Profile Info ================= -->
+<div class="dashboard-card">
+<div class="card-header">
+    <h2 class="card-title"><i class="fas fa-user"></i> Profile Information</h2>
+</div>
+
+<form id="profileForm" method="POST">
+
+    <div class="form-group">
+        <label class="form-label" for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName"
+               class="form-input" required autocomplete="name">
+        <div class="form-error" id="fullNameError"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input type="email" id="email" name="email"
+               class="form-input" disabled autocomplete="email">
+        <small class="form-info">
+            <i class="fas fa-info-circle"></i> Email cannot be changed
+        </small>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone"
+               class="form-input"
+               pattern="[0-9]{10}" maxlength="10"
+               required autocomplete="tel">
+        <div class="form-error" id="phoneError"></div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="address">Address</label>
+        <textarea id="address" name="address"
+                  class="form-textarea"
+                  rows="3"
+                  autocomplete="street-address"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Update Profile
+    </button>
+
+</form>
+</div>
+
+<!-- ================= Change Password ================= -->
+<div class="dashboard-card">
+<div class="card-header">
+    <h2 class="card-title"><i class="fas fa-lock"></i> Change Password</h2>
+</div>
+
+<form id="passwordForm" method="POST">
+
+    <div class="form-group">
+        <label class="form-label" for="currentPassword">Current Password</label>
+        <input type="password" id="currentPassword" name="currentPassword"
+               class="form-input" required autocomplete="current-password">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="newPassword">New Password</label>
+        <input type="password" id="newPassword" name="newPassword"
+               class="form-input" minlength="6"
+               required autocomplete="new-password">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="confirmNewPassword">Confirm New Password</label>
+        <input type="password" id="confirmNewPassword" name="confirmNewPassword"
+               class="form-input" minlength="6"
+               required autocomplete="new-password">
+    </div>
+
+    <button type="submit" class="btn btn-secondary">
+        <i class="fas fa-key"></i> Change Password
+    </button>
+
+</form>
+</div>
+
+<!-- ================= Preferences ================= -->
+<div class="dashboard-card">
+<div class="card-header">
+    <h2 class="card-title"><i class="fas fa-sliders-h"></i> Preferences</h2>
+</div>
+
+<form id="preferencesForm">
+
+    <div class="form-group">
+        <label class="form-label" for="themePreference">Theme Preference</label>
+        <select id="themePreference" name="themePreference" class="form-select">
+            <option value="light">Light Mode</option>
+            <option value="dark">Dark Mode</option>
+        </select>
+    </div>
+
+    <div class="form-group checkbox-group">
+        <label>
+            <input type="checkbox" id="emailNotifications" name="emailNotifications" checked>
+            Receive email notifications
+        </label>
+    </div>
+
+    <div class="form-group checkbox-group">
+        <label>
+            <input type="checkbox" id="smsNotifications" name="smsNotifications" checked>
+            Receive SMS notifications
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        <i class="fas fa-save"></i> Save Preferences
+    </button>
+
+</form>
+</div>
+
+<!-- ================= Danger Zone ================= -->
+<div class="dashboard-card danger-card">
+<div class="card-header">
+    <h2 class="card-title danger-text">
+        <i class="fas fa-exclamation-triangle"></i> Danger Zone
+    </h2>
+</div>
+
+<p>Once you delete your account, there is no going back.</p>
+
+<button class="btn btn-danger" id="deleteAccountBtn">
+    <i class="fas fa-trash-alt"></i> Delete Account
+</button>
+
+</div>
+
+</div>
+</main>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteAccountModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+        <h2 class="danger-text">
+            <i class="fas fa-exclamation-triangle"></i> Confirm Deletion
+        </h2>
+
+        <p>This action cannot be undone.</p>
+
+        <input type="password" id="confirmDeletePassword"
+               class="form-input"
+               placeholder="Enter your password to confirm">
+
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelDelete">Cancel</button>
+            <button class="btn btn-danger" id="confirmDeleteAccount">
+                Delete My Account
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="js/profile.js"></script>
+
+</body>
+</html>
