@@ -2,8 +2,6 @@
 
 **A Full-Stack Web Application for Instant Emergency Notifications**
 
-Developed by the Department of Computer Science, K.A.A.N.M.S. Arts Commerce & Science College, Satana
-
 ---
 
 ## 📋 Project Overview
@@ -481,26 +479,6 @@ emergency-alert-system/
 
 ---
 
-## 🤝 Contributing
-
-This project was developed as part of an academic project at K.A.A.N.M.S. College, Satana.
-
-**Project Team:**
-- Unnati Dilip Ahire
-- Pranjal Shashikant Sonawane
-- Giridhar Keda More
-
-**Department:** Computer Science  
-**Institution:** M.V.P. Samaja's K.A.A.N.M.S. Arts Commerce & Science College, Satana
-
----
-
-## 📝 License
-
-This project is developed for educational purposes as part of the Computer Science curriculum.
-
----
-
 ## 📞 Support & Contact
 
 For issues, questions, or suggestions:
@@ -540,24 +518,7 @@ For issues, questions, or suggestions:
 ---
 
 **Version**: 1.0.0  
-**Last Updated**: 2024  
+**Last Updated**: 2026
 **Status**: ✅ Production Ready (Demo Version)
-
----
-
-## 🚀 Deployment
-
-To deploy this application:
-
-1. **Use the Publish Tab** in your development environment
-2. Click "Publish" to make the website live
-3. Share the generated URL with users
-4. For production deployment, consider:
-   - Setting up proper backend server
-   - Implementing real SMS/Email services
-   - Adding SSL certificate for security
-   - Configuring proper database hosting
-
----
 
 *Emergency Alert System - Your Safety, Our Priority* 🚨
