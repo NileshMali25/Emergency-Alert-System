@@ -72,23 +72,6 @@
 
 ---
 
-## 📱 Mobile Usage
-
-1. Open the app on your mobile browser
-2. Add to home screen for quick access:
-   - **iOS**: Safari → Share → Add to Home Screen
-   - **Android**: Chrome → Menu → Add to Home Screen
-3. One-tap access to emergency button
-
----
-
-## 🎨 Theme Toggle
-
-- Click the moon/sun icon in the header
-- Or set preference in Profile → Preferences
-- Saves automatically
-
----
 
 ## 💡 Tips for Best Experience
 
@@ -166,4 +149,4 @@ Keep your contacts updated and test the system regularly.
 
 ---
 
-*Emergency Alert System - Quick Start Guide v1.0*
+*Emergency Alert System 
