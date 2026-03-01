@@ -279,7 +279,7 @@ app.get("/tables/emergency_contacts/:userId", (req, res) => {
 //                     },
 //                     {
 //                         headers: {
-//                             authorization: "h1IynwL7xAfDDGYjxxM2Hq1WHuPSlv9AokYEItIV0N5kWLDkrlD9rxyQ8cOx",
+//                             authorization: " ",
 //                             "Content-Type": "application/json"
 //                         }
 //                     }
