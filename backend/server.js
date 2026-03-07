@@ -379,11 +379,11 @@ app.get("/test-sms", async (req, res) => {
                 route: "q",
                 message: "Emergency Test Message",
                 language: "english",
-                numbers: "919356315793"
+                numbers: "91XXXXXXXXX"
             },
             {
                 headers: {
-                    authorization: "h1IynwL7xAfDDGYjxxM2Hq1WHuPSlv9AokYEItIV0N5kWLDkrlD9rxyQ8cOx",
+                    authorization: "YOUR API KEY",
                     "Content-Type": "application/json"
                 }
             }
