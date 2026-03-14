@@ -8,6 +8,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const twilio = require("twilio");
+
+const accountSid = "";
+const authToken = "";
+
+const client = twilio(accountSid, authToken);
+
+const TWILIO_NUMBER = "";   // Your Twilio number
 /* ================= DATABASE ================= */
 
 const db = mysql.createPool({
@@ -200,16 +208,26 @@ app.delete("/contacts/:id", (req, res) => {
     });
 });
 
-// FAKE SMS FUNCTION (FOR DEMO)
-function sendFakeSMS(phone, message) {
-    console.log("Demo SMS Sent To:", phone);
-    console.log("Message:", message);
+async function sendSMS(phone, message) {
 
-    return {
-        return: true,
-        message: "SMS sent successfully (Demo Mode)"
-    };
+    try {
+
+        const sms = await client.messages.create({
+            body: message,
+            from: TWILIO_NUMBER,
+            to: phone
+        });
+
+        console.log("SMS Sent:", sms.sid);
+
+    } catch (error) {
+
+        console.log("SMS Error:", error.message);
+
+    }
 }
+
+
 
 /* ================= EMERGENCY ALERT ================= */
 
@@ -230,78 +248,19 @@ app.get("/tables/emergency_contacts/:userId", (req, res) => {
         res.json(result);
     });
 });
+app.get("/test-sms", async (req, res) => {
+
+    await sendSMS(
+        "+919356315793",
+        "Emergency system test message"
+    );
+
+    res.send("SMS Sent");
+});
+
 //FOR REAL API
-// app.post("/alert_history", async (req, res) => {
-
-//     const { user_id, alert_message } = req.body;
-
-//     if (!user_id || !alert_message) {
-//         return res.status(400).json({ message: "Required fields missing" });
-//     }
-
-//     try {
-
-//         // 1️⃣ Insert alert in DB FIRST
-//         const sql = `
-//             INSERT INTO alert_history (user_id, message, location)
-//             VALUES (?, ?, 'Unknown')
-//         `;
-
-//         await new Promise((resolve, reject) => {
-//             db.query(sql, [user_id, alert_message], (err) => {
-//                 if (err) reject(err);
-//                 else resolve();
-//             });
-//         });
-
-//         // 2️⃣ Fetch contacts
-//         const contacts = await new Promise((resolve, reject) => {
-//             db.query(
-//                 "SELECT phone FROM contacts WHERE user_id=?",
-//                 [user_id],
-//                 (err, result) => {
-//                     if (err) reject(err);
-//                     else resolve(result);
-//                 }
-//             );
-//         });
-
-//        // 3️⃣ Send SMS (Demo Safe)
-//         for (let contact of contacts) {
-//             try {
-//                 await axios.post(
-//                     "https://www.fast2sms.com/dev/bulkV2",
-//                     {
-//                         route: "q",
-//                         message: alert_message,
-//                         language: "english",
-//                         numbers: contact.phone
-//                     },
-//                     {
-//                         headers: {
-//                             authorization: " ",
-//                             "Content-Type": "application/json"
-//                         }
-//                     }
-//                 );
-//             } catch (smsError) {
-//                 console.log("SMS failed for:", contact.phone);
-//             }
-//         }
-
-
-//         // 4️⃣ ALWAYS success response (Very Important)
-//         res.json({ success: true, message: "Alert saved & SMS processed" });
-
-//     } catch (error) {
-//         console.error("Alert error:", error);
-//         res.status(500).json({ message: "Server error" });
-//     }
-// });
-
 app.post("/alert_history", async (req, res) => {
 
-    let successCount = 0;
     const { user_id, alert_message } = req.body;
 
     if (!user_id || !alert_message) {
@@ -310,43 +269,43 @@ app.post("/alert_history", async (req, res) => {
 
     try {
 
-        const sql = `
-            INSERT INTO alert_history (user_id, message, location)
-            VALUES (?, ?, 'Unknown')
-        `;
+        // 1️⃣ Save alert in DB
+        await db.promise().query(
+            "INSERT INTO alert_history (user_id, message, location) VALUES (?, ?, 'Unknown')",
+            [user_id, alert_message]
+        );
 
-        await new Promise((resolve, reject) => {
-            db.query(sql, [user_id, alert_message], (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
-        });
+        // 2️⃣ Get contacts
+        const [contacts] = await db.promise().query(
+            "SELECT phone FROM contacts WHERE user_id=?",
+            [user_id]
+        );
 
-        const contacts = await new Promise((resolve, reject) => {
-            db.query(
-                "SELECT phone FROM contacts WHERE user_id=?",
-                [user_id],
-                (err, result) => {
-                    if (err) reject(err);
-                    else resolve(result);
-                }
-            );
-        });
-
-        // 🔥 DEMO MODE SMS
+        // 3️⃣ Send SMS to all contacts
         for (let contact of contacts) {
-            console.log("📩 SMS Sent To:", contact.phone);
-            console.log("Message:", alert_message);
+
+            const phoneNumber = "+91" + contact.phone;
+
+            await sendSMS(
+                phoneNumber,
+                "🚨 EMERGENCY ALERT 🚨\n\n" + alert_message
+            );
         }
 
-        res.json({ success: true, message: "Alert saved successfully (Demo Mode)" });
+        res.json({
+            success: true,
+            message: "Alert sent to contacts"
+        });
 
     } catch (error) {
+
         console.error("Alert error:", error);
-        res.status(500).json({ message: "Server error" });
+
+        res.status(500).json({
+            message: "Server error"
+        });
+
     }
-    
-     
 });
 
 
@@ -379,11 +338,11 @@ app.get("/test-sms", async (req, res) => {
                 route: "q",
                 message: "Emergency Test Message",
                 language: "english",
-                numbers: "91XXXXXXXXX"
+                numbers: "919356315793"
             },
             {
                 headers: {
-                    authorization: "YOUR API KEY",
+                    authorization: "h1IynwL7xAfDDGYjxxM2Hq1WHuPSlv9AokYEItIV0N5kWLDkrlD9rxyQ8cOx",
                     "Content-Type": "application/json"
                 }
             }
