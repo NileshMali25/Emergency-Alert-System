@@ -3,29 +3,16 @@ const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 let allContacts = [];
 let editingContactId = null;
 
-
+setInterval(loadAlertHistory, 5000);
 /* ================= ALERT ================= */
-
-function showAlert(message, type = "success") {
-    const container = document.getElementById("messageContainer");
-    if (!container) return;
-
-    container.innerHTML = `
-        <div class="alert alert-${type}">
-            ${message}
-        </div>
-    `;
-
-    setTimeout(() => {
-        container.innerHTML = "";
-    }, 3000);
-}
 function displayAlerts(alerts) {
+
     const container = document.getElementById("historyList");
 
     if (!container) return;
 
     if (!alerts || alerts.length === 0) {
+
         container.innerHTML = `
             <div class="empty-state">
                 <p>No alerts found</p>
@@ -35,17 +22,22 @@ function displayAlerts(alerts) {
     }
 
     container.innerHTML = alerts.map(alert => `
-        <div class="history-item">
-            <div>
-                <strong>${alert.alert_type}</strong><br>
-                Status: ${alert.status}<br>
-                ${new Date(alert.created_at).toLocaleString()}
-            </div>
-        </div>
-    `).join("");
 
-    // Update stats
-    document.getElementById("totalAlerts").textContent = alerts.length;
+        <div class="history-item">
+
+            <div>
+
+                <strong>${alert.message}</strong><br>
+
+                Status: ${alert.resolved ? "Resolved" : "Sent"}<br>
+
+                ${new Date(alert.created_at).toLocaleString()}
+
+            </div>
+
+        </div>
+
+    `).join("");
 }
 
 /* ================= AUTH ================= */
@@ -112,45 +104,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("filterRelationship")
         ?.addEventListener("change", filterContacts);
 
-    await loadContacts();
     await loadAlertHistory();
-    await updateStats(alerts);
 });
 
 /* ================= LOAD CONTACTS ================= */
-
-async function loadContacts() {
-    try {
-        showAlert("Loading contacts...", "info");
-
-        const response = await fetch(
-            `${API_BASE}/contacts/user/${currentUser.id}`
-        );
-
-        if (!response.ok)
-            throw new Error("Failed to fetch contacts");
-
-        const data = await response.json();
-
-        // Support both array and {contacts: []}
-        if (Array.isArray(data)) {
-            allContacts = data;
-        } else if (Array.isArray(data.contacts)) {
-            allContacts = data.contacts;
-        } else {
-            allContacts = [];
-        }
-
-        updateStats();
-        displayContacts(allContacts);
-    } catch (error) {
-        console.error("Load error:", error);
-        showAlert("Failed to load contacts", "danger");
-    }
-}
-
 async function loadAlertHistory() {
+
     try {
+
         const user = JSON.parse(localStorage.getItem("currentUser"));
 
         if (!user) {
@@ -158,16 +119,23 @@ async function loadAlertHistory() {
             return;
         }
 
-        const response = await fetch(
-            `http://localhost:5000/alert_history/${user.id}`
-        );
+        const response = await fetch(`${API_BASE}/alert_history/${user.id}`);
 
-        const data = await response.json();
+        if (!response.ok) {
+            throw new Error("API error");
+        }
 
-        displayAlerts(data);
+        const alerts = await response.json();
+
+        console.log("Alerts data:", alerts); // debugging
+
+        displayAlerts(alerts);
+        updateStats(alerts);
 
     } catch (error) {
+
         console.error("History load error:", error);
+
     }
 }
 /* ================= DISPLAY ================= */
@@ -199,15 +167,23 @@ function displayContacts(contacts) {
         .join("");
 }
 
-function updateStats(alerts) {
+function updateStats(alerts = []) {
 
-    document.getElementById("totalAlerts").textContent = alerts.length;
+    const total = document.getElementById("totalAlerts");
+    const sent = document.getElementById("sentAlerts");
+    const failed = document.getElementById("failedAlerts");
 
-    document.getElementById("sentAlerts").textContent =
-        alerts.filter(a => a.status === "Sent").length;
+    if (total) total.textContent = alerts.length;
 
-    document.getElementById("failedAlerts").textContent =
-        alerts.filter(a => a.status === "Failed").length;
+    if (sent) {
+        sent.textContent =
+            alerts.filter(a => !a.resolved).length;
+    }
+
+    if (failed) {
+        failed.textContent =
+            alerts.filter(a => a.resolved).length;
+    }
 }
 /* ================= ADD / EDIT ================= */
 
