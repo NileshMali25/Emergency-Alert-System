@@ -25,7 +25,4 @@ The Emergency Alert System is a comprehensive web application designed to provid
 - **Professionals**: Workplace safety for employees in remote locations
 - **General Public**: Anyone needing a reliable emergency alert system
 
----
-
-## ✨ Currently Completed Features
 
